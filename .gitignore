@@ -1,0 +1,20 @@
+# Compilados Java
+*.class
+
+# Logs
+*.log
+
+# Swap files
+*.swp
+
+# Maven
+target/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# OS
+.DS_Store
+Thumbs.db
