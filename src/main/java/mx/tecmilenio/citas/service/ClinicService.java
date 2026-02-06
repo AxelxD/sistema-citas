@@ -89,4 +89,5 @@ public class ClinicService {
         if (list.isEmpty()) System.out.println("(sin registros)");
         for (Cita c : list) System.out.println(c);
     }
+
 }
