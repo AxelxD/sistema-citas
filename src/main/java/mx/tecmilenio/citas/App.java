@@ -74,6 +74,7 @@ public class App {
                     case 1 -> clinic.altaDoctor();
                     case 2 -> clinic.altaPaciente();
                     case 3 -> clinic.crearCita();
+                    case 4 -> clinic.listarDoctores();
                     case 7 -> System.out.println("Saliendo... ¡hasta luego!");
                     default -> System.out.println("Opción inválida.");
                 }
