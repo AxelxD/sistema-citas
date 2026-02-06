@@ -83,4 +83,11 @@ public class ClinicService {
         for (Paciente p : list) System.out.println(p);
     }
 
+    public void listarCitas() throws Exception {
+        List<Cita> list = citaRepo.findAll();
+        System.out.println("=== Citas ===");
+        if (list.isEmpty()) System.out.println("(sin registros)");
+        for (Cita c : list) System.out.println(c);
+    }
+
 }
