@@ -73,6 +73,7 @@ public class App {
                 switch (option) {
                     case 1 -> clinic.altaDoctor();
                     case 2 -> clinic.altaPaciente();
+                    case 3 -> clinic.crearCita();
                     case 7 -> System.out.println("Saliendo... ¡hasta luego!");
                     default -> System.out.println("Opción inválida.");
                 }
