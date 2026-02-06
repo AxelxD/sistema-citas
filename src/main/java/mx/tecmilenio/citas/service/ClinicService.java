@@ -46,4 +46,27 @@ public class ClinicService {
         System.out.println("Paciente registrado correctamente.");
     }
 
+    public void crearCita() throws Exception {
+        String id = InputUtil.readNonEmpty("ID Cita: ");
+        if (citaRepo.existsById(id)) throw new IllegalArgumentException("El ID de cita ya existe.");
+
+        String fechaHoraStr = InputUtil.readNonEmpty("Fecha y hora (yyyy-MM-dd HH:mm): ");
+        LocalDateTime fechaHora;
+        try {
+            fechaHora = LocalDateTime.parse(fechaHoraStr, dtf);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Formato de fecha/hora inválido. Usa: yyyy-MM-dd HH:mm");
+        }
+
+        String motivo = InputUtil.readNonEmpty("Motivo: ");
+        String idDoctor = InputUtil.readNonEmpty("ID Doctor existente: ");
+        String idPaciente = InputUtil.readNonEmpty("ID Paciente existente: ");
+
+        if (!doctorRepo.existsById(idDoctor)) throw new IllegalArgumentException("No existe el doctor con ID: " + idDoctor);
+        if (!pacienteRepo.existsById(idPaciente)) throw new IllegalArgumentException("No existe el paciente con ID: " + idPaciente);
+
+        citaRepo.save(new Cita(id, fechaHora, motivo, idDoctor, idPaciente));
+        System.out.println("Cita creada correctamente.");
+    }
+
 }
