@@ -27,4 +27,13 @@ public class AdminRepositoryCsv {
         }
         return out;
     }
+
+    public boolean isEmptyOrHeaderOnly() throws Exception {
+        List<String> lines = fm.readLines(file);
+        int nonEmpty = 0;
+        for (String l : lines) {
+            if (!l.trim().isEmpty()) nonEmpty++;
+        }
+        return nonEmpty <= 1;
+    }
 }
