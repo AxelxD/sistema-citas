@@ -69,4 +69,11 @@ public class ClinicService {
         System.out.println("Cita creada correctamente.");
     }
 
+    public void listarDoctores() throws Exception {
+        List<Doctor> list = doctorRepo.findAll();
+        System.out.println("=== Doctores ===");
+        if (list.isEmpty()) System.out.println("(sin registros)");
+        for (Doctor d : list) System.out.println(d);
+    }
+
 }
