@@ -1,0 +1,4 @@
+# Ignorar todo el contenido de la carpeta db (archivos locales)
+*
+# Pero conservar este .gitignore
+!.gitignore
