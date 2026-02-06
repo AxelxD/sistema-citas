@@ -37,4 +37,13 @@ public class ClinicService {
         System.out.println("Doctor registrado correctamente.");
     }
 
+    public void altaPaciente() throws Exception {
+        String id = InputUtil.readNonEmpty("ID Paciente: ");
+        if (pacienteRepo.existsById(id)) throw new IllegalArgumentException("El ID de paciente ya existe.");
+
+        String nombre = InputUtil.readNonEmpty("Nombre completo: ");
+        pacienteRepo.save(new Paciente(id, nombre));
+        System.out.println("Paciente registrado correctamente.");
+    }
+
 }
