@@ -5,28 +5,40 @@ import mx.tecmilenio.citas.service.AuthService;
 import mx.tecmilenio.citas.service.ClinicService;
 import mx.tecmilenio.citas.util.InputUtil;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class App {
 
     public static void main(String[] args) {
-        String base = Paths.get("data").toString();
-        String adminsFile   = Paths.get(base, "admins.csv").toString();
-        String doctorsFile  = Paths.get(base, "doctores.csv").toString();
-        String patientsFile = Paths.get(base, "pacientes.csv").toString();
-        String apptsFile    = Paths.get(base, "citas.csv").toString();
+        Path base = Paths.get("db");
+        String adminsFile   = base.resolve("admins.csv").toString();
+        String doctorsFile  = base.resolve("doctores.csv").toString();
+        String patientsFile = base.resolve("pacientes.csv").toString();
+        String apptsFile    = base.resolve("citas.csv").toString();
 
         CsvFileManager fm = new CsvFileManager();
+
+        try {
+            fm.ensureCsvWithHeader(adminsFile, "id,passwordHash");
+            fm.ensureCsvWithHeader(doctorsFile, "id,nombreCompleto,especialidad");
+            fm.ensureCsvWithHeader(patientsFile, "id,nombreCompleto");
+            fm.ensureCsvWithHeader(apptsFile, "id,fechaHora,motivo,idDoctor,idPaciente");
+        } catch (Exception e) {
+            System.out.println("Error inicializando db/: " + e.getMessage());
+            System.out.println("El sistema continuará, pero revisa permisos/rutas.");
+        }
 
         AdminRepositoryCsv adminRepo = new AdminRepositoryCsv(fm, adminsFile);
         DoctorRepositoryCsv doctorRepo = new DoctorRepositoryCsv(fm, doctorsFile);
         PacienteRepositoryCsv pacienteRepo = new PacienteRepositoryCsv(fm, patientsFile);
         CitaRepositoryCsv citaRepo = new CitaRepositoryCsv(fm, apptsFile);
 
-        AuthService auth = new AuthService(adminRepo);
+        AuthService auth = new AuthService(adminRepo, fm, adminsFile);
         ClinicService clinic = new ClinicService(doctorRepo, pacienteRepo, citaRepo);
 
-        System.out.println("=== Sistema de Administración de Citas (Java 11) ===");
+        System.out.println("=== Sistema de Administración de Citas (Java 25) ===");
+        System.out.println("Datos locales: db/ (CSV).\n");
 
         while (true) {
             try {
@@ -60,11 +72,6 @@ public class App {
 
                 switch (option) {
                     case 1 -> clinic.altaDoctor();
-                    case 2 -> clinic.altaPaciente();
-                    case 3 -> clinic.crearCita();
-                    case 4 -> clinic.listarDoctores();
-                    case 5 -> clinic.listarPacientes();
-                    case 6 -> clinic.listarCitas();
                     case 7 -> System.out.println("Saliendo... ¡hasta luego!");
                     default -> System.out.println("Opción inválida.");
                 }
